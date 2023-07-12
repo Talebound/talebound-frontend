@@ -61,7 +61,7 @@ export default function Verify() {
               <Text size="lg">Verifying email...</Text>
             </Row>
           )}
-          {(verify.isError || verify.data?.isVerified === false) && (
+          {(verify.isError || verify.data?.data.isVerified === false) && (
             <Text size="lg" color="danger">
               Code is invalid, expired or email already verified.
             </Text>

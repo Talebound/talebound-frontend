@@ -37,6 +37,12 @@ export const DropdownItem = styled('button', {
         backgroundColor: '#fff',
       },
     },
+    small: {
+      true: {
+        minWidth: '100px',
+        width: 'calc(100% - 16px)',
+      },
+    },
   },
 
   '&:first-child': {
@@ -66,5 +72,4 @@ export const DropdownItemText = styled('span', {
   display: 'flex',
   lineHeight: '20px',
   flexGrow: '1',
-  width: '200px',
 });

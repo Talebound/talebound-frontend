@@ -1,6 +1,5 @@
 import React, { useCallback, useMemo } from 'react';
 import { Col } from '../../components/Flex/Flex';
-import InfoSection from '../../components/InfoSection';
 import { useGetUserById } from '../../api/useGetUserById';
 import { useAuth } from '../../hooks/useAuth';
 import { UserProfileProps } from './UserProfile';
@@ -9,15 +8,18 @@ import {
   UpdateUserIntroductionRequest,
   useUpdateUserIntroduction,
 } from '../../api/useUpdateUserIntroduction';
-import Editor, { EditorOnSaveAction } from '../../components/Editor/Editor';
+import Editor, { EditorOnSaveAction, PostViewType } from '../../components/Editor/Editor';
 import { parseError } from '../../utils/types/error';
 import { EMPTY_EDITOR_STATE } from '../../components/Editor/utils/emptyEditorState';
+import { PostTypeEnum, usePostType } from '../../hooks/usePostType';
 
-type UserIntroductionProps = Pick<UserProfileProps, 'userId'>;
+type UserIntroductionProps = Pick<UserProfileProps, 'userId'> & {
+  postViewOnly?: boolean;
+};
 
-const UserIntroduction: React.FC<UserIntroductionProps> = ({ userId }) => {
+const UserIntroduction: React.FC<UserIntroductionProps> = ({ userId, postViewOnly = false }) => {
   const { user, isLoggedIn: _isLoggedIn } = useAuth();
-  const [editIntroduction, setEditIntroduction] = React.useState(false);
+  const postType = usePostType(PostTypeEnum.UserIntroduction);
 
   const { data: userData, isLoading: isLoadingUser } = useGetUserById({
     variables: userId,
@@ -29,7 +31,7 @@ const UserIntroduction: React.FC<UserIntroductionProps> = ({ userId }) => {
     [userData?.introductionPostId],
   );
 
-  const { data: data, isLoading: isLoadingIntroduction } = useGetPostById({
+  const { data: postData, isLoading: isLoadingIntroduction } = useGetPostById({
     enabled: loadIntroductionData,
     variables: userData?.introductionPostId ?? 0,
     suspense: true,
@@ -39,16 +41,12 @@ const UserIntroduction: React.FC<UserIntroductionProps> = ({ userId }) => {
 
   const isLoading = isLoadingUser || (isLoadingIntroduction && loadIntroductionData);
 
-  const hasIntroduction = !isLoading && data?.post?.content !== undefined;
+  const hasIntroduction = !isLoading && postData?.post?.content !== undefined;
 
   const isMyPost = useMemo(
     () => user?.id === userData?.id && user?.id !== undefined,
     [user?.id, userData?.id],
   );
-
-  const editIntroductionHandler = useCallback(() => {
-    setEditIntroduction(true);
-  }, []);
 
   const onSave: EditorOnSaveAction = useCallback(
     (editorState, _editor, draft, successAction, errorAction, settleAction) => {
@@ -76,54 +74,36 @@ const UserIntroduction: React.FC<UserIntroductionProps> = ({ userId }) => {
     [updateUserIntroduction, userData?.introductionPostId, userId],
   );
 
-  const closeEditorHandler = useCallback(() => {
-    setEditIntroduction(false);
-  }, []);
-
   const editorState = useMemo(() => {
     if (!isLoading && userData?.introductionPostId !== undefined) {
-      return data?.post?.content;
+      return postData?.post?.content;
     } else if (!hasIntroduction) {
       return EMPTY_EDITOR_STATE;
     } else {
       return undefined;
     }
-  }, [hasIntroduction, isLoading, userData?.introductionPostId, data?.post?.content]);
+  }, [hasIntroduction, isLoading, userData?.introductionPostId, postData?.post?.content]);
 
   const resetErrorHandler = useCallback(() => {
     updateUserIntroduction.reset();
   }, [updateUserIntroduction]);
 
-  /*
-  (editorState ||
-        (isMyPost && userData?.introductionPostId === undefined))
-
-   */
-
   return (
     <Col fullWidth>
       <Editor
         loading={updateUserIntroduction.isLoading}
+        hasRightToEdit={isMyPost}
         editorState={editorState}
-        disabled={!isMyPost}
-        postView={!isMyPost || !editIntroduction}
-        isDraft={data?.post?.isDraft ?? false}
-        alreadyExists={data?.post?.id !== undefined}
-        draftable={data?.postType?.draftable ?? false}
+        disabled={false}
+        editable={!postViewOnly}
+        defaultPostViewType={PostViewType.POST}
+        isDraft={postData?.post?.isDraft ?? false}
+        alreadyExists={postData?.post?.id !== undefined}
+        draftable={postData?.postType?.draftable ?? postType?.draftable ?? false}
         onSaveAction={onSave}
         error={parseError(updateUserIntroduction.error)}
         resetError={resetErrorHandler}
-        closeEditor={closeEditorHandler}
       />
-      {isMyPost && !editIntroduction && (
-        <InfoSection
-          linkTitle={'Edit introduction'}
-          linkAction={editIntroductionHandler}
-          background
-        >
-          {!isLoading && userData?.introductionPostId === undefined && 'Introduction missing'}
-        </InfoSection>
-      )}
     </Col>
   );
 };

@@ -13,7 +13,6 @@ export const ToolbarItemButton = styled('button', {
 
   '&:disabled': {
     cursor: 'not-allowed',
-    opacity: 0.2,
   },
 
   '&:hover:not(:disabled)': {

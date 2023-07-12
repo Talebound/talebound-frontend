@@ -2,10 +2,15 @@ import React, { ReactNode } from 'react';
 import { AnyAction, configureStore, ThunkAction } from '@reduxjs/toolkit';
 import { Provider } from 'react-redux';
 import { userReducer, userSlice } from '../utils/auth/userSlice';
+import {
+  imageModalReducer,
+  imageModalSlice,
+} from '../components/Editor/nodes/ImageModal/imageModalSlice';
 
 export const store = configureStore({
   reducer: {
     [userSlice.name]: userReducer,
+    [imageModalSlice.name]: imageModalReducer,
   },
 });
 

@@ -10,12 +10,14 @@ export const ToolbarCodeLanguageSelect = styled(ToolbarSelect, {
 });
 
 interface SelectCodeLanguageProps {
+  disabled?: boolean;
   selectedElementKey: string | null;
   editor: LexicalEditor;
   codeLanguage: string;
 }
 
 const SelectCodeLanguage: React.FC<SelectCodeLanguageProps> = ({
+  disabled,
   selectedElementKey,
   editor,
   codeLanguage,
@@ -37,7 +39,11 @@ const SelectCodeLanguage: React.FC<SelectCodeLanguageProps> = ({
   );
 
   return (
-    <ToolbarCodeLanguageSelect onChange={onCodeLanguageSelect} value={codeLanguage}>
+    <ToolbarCodeLanguageSelect
+      disabled={disabled}
+      onChange={onCodeLanguageSelect}
+      value={codeLanguage}
+    >
       <option hidden={true} value="" />
       {codeLanguages.map((option) => (
         <option key={option} value={option}>

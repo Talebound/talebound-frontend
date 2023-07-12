@@ -114,12 +114,14 @@ const blockTypeToBlockName: Record<BlockType, BlockTypeInfo> = {
 };
 
 interface ToolbarBlockControlsProps {
+  disabled?: boolean;
   blockType: BlockType;
   toolbarRef: React.RefObject<HTMLDivElement>;
   editor: LexicalEditor;
 }
 
 const ToolbarBlockType: React.FC<ToolbarBlockControlsProps> = ({
+  disabled,
   blockType,
   toolbarRef,
   editor,
@@ -135,6 +137,7 @@ const ToolbarBlockType: React.FC<ToolbarBlockControlsProps> = ({
   return (
     <>
       <ToolbarItemButton
+        disabled={disabled}
         onClick={showBlockOptionsDropdownListCallback}
         aria-label="Formatting Options"
       >
@@ -143,7 +146,6 @@ const ToolbarBlockType: React.FC<ToolbarBlockControlsProps> = ({
         <ChevronWrapper>
           <BsChevronDown />
         </ChevronWrapper>
-        {/*<i className="chevron-down" />*/}
       </ToolbarItemButton>
       {showBlockOptionsDropDown &&
         createPortal(

@@ -9,6 +9,7 @@ import { ModalTitle } from './ModalTitle';
 import { ModalDescription } from './ModalDescription';
 import { ModalPortal } from './ModalPortal';
 import { ModalClose } from './ModalClose';
+import SelectDemo from '../Select/SelectDemo';
 
 const ModalDemo: React.FC = () => {
   return (
@@ -20,6 +21,7 @@ const ModalDemo: React.FC = () => {
         <ModalOverlay />
         <ModalContent>
           <ModalTitle>Edit profile</ModalTitle>
+          <SelectDemo />
           <ModalDescription>
             Make changes to your profile here. Click save when you&apos;re done.
           </ModalDescription>

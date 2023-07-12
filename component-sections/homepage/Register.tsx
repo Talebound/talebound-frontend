@@ -156,7 +156,7 @@ const Register: React.FC<HomepageRegisterProps> = ({ background = false }) => {
                 required
                 helperText={helperUsername.text}
                 helperType={helperUsername.type}
-                transparent
+                mode="transparent"
               />
               <Input
                 label="Email"
@@ -167,7 +167,7 @@ const Register: React.FC<HomepageRegisterProps> = ({ background = false }) => {
                 required
                 helperText={helperEmail.text}
                 helperType={helperEmail.type}
-                transparent
+                mode="transparent"
               />
               <Input
                 label="Password"
@@ -178,7 +178,7 @@ const Register: React.FC<HomepageRegisterProps> = ({ background = false }) => {
                 required
                 helperText={helperPassword1.text}
                 helperType={helperPassword1.type}
-                transparent
+                mode="transparent"
               />
               <Input
                 label="Password again"
@@ -189,13 +189,13 @@ const Register: React.FC<HomepageRegisterProps> = ({ background = false }) => {
                 required
                 helperText={helperPassword2.text}
                 helperType={helperPassword2.type}
-                transparent
+                mode="transparent"
               />
               <Checkbox
                 id="req_checkbox"
                 checked={checked}
                 onCheckedChange={handleCheckbox}
-                transparent
+                mode="transparent"
               >
                 <Text size="xs" color="white">
                   I agree to the{' '}

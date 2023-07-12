@@ -72,7 +72,7 @@ const UserProfile: React.FC<UserProfileProps> = ({ userId }) => {
       <Col css={{ flexGrow: 1, flexBasis: '30rem' }}>
         <ContentSection direction="column" header="Introduction">
           <Suspense fallback={<Loading />}>
-            <UserIntroduction userId={userId} />
+            <UserIntroduction userId={userId} postViewOnly={false} />
           </Suspense>
         </ContentSection>
       </Col>

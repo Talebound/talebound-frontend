@@ -5,7 +5,7 @@ import Stitches from '@stitches/react';
 export const CheckboxRoot = styled(CheckboxRadix.Root, {
   all: 'unset',
   backgroundColor: 'white',
-  border: '2px solid',
+  border: '1px solid transparent',
   width: 24,
   height: 24,
   borderRadius: '$sm',
@@ -17,24 +17,28 @@ export const CheckboxRoot = styled(CheckboxRadix.Root, {
   transition: 'all 300ms ease',
 
   variants: {
-    border: {
-      true: {
-        borderColor: `$primary`,
-      },
-      false: {
-        borderColor: `transparent`,
-      },
-    },
-    transparent: {
-      true: {
+    mode: {
+      transparent: {
         background: '$transparent40',
         '&:hover': { backgroundColor: '$transparent70' },
+      },
+      grey: {
+        backgroundColor: '$white700',
+        '&:focus': { border: '1px solid $white900' },
+      },
+      white: {
+        borderColor: '$primary300',
+        backgroundColor: '$white200',
+        '&:focus': {
+          borderColor: '$primary500',
+          backgroundColor: '$white100',
+        },
       },
     },
   },
 
   defaultVariants: {
-    border: 'false',
+    mode: 'white',
   },
 
   '&:hover': { backgroundColor: '$primary100' },
@@ -42,7 +46,7 @@ export const CheckboxRoot = styled(CheckboxRadix.Root, {
     backgroundColor: '$white900',
     cursor: 'default',
   },
-  '&:focus': { border: `2px solid $primary800` },
+  '&:focus': { borderColor: `$primary800` },
 });
 
 export type CheckboxVariants = Stitches.VariantProps<typeof CheckboxRoot>;

@@ -134,7 +134,7 @@ const Login: React.FC = () => {
           required
           onKeyDown={submitOnEnter}
           fullWidth
-          transparent
+          mode="transparent"
         />
         <Input
           id="login-password"
@@ -145,7 +145,7 @@ const Login: React.FC = () => {
           required
           onKeyDown={submitOnEnter}
           fullWidth
-          transparent
+          mode="transparent"
         />
         <LoginButtonWrapper>
           <Button color="primaryFill" size="md" onClick={submitLogin} disabled={buttonDisabled}>
